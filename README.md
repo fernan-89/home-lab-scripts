@@ -1,8 +1,10 @@
 # Home Lab Scripts
 
-**Version:** v1.0.0-public-ready
+**Version:** v1.0.1
 
 **Status:** Public-ready automation toolkit
+
+Cross-platform PowerShell and Bash utilities for secure home lab automation, network diagnostics, hardware inventory, Git maintenance, Docker deployment, Terraform workflows, and infrastructure operations.
 
 ## Overview
 
@@ -32,7 +34,7 @@ home-lab-scripts/
 │   ├── <task>.sh
 │   └── README.md
 ├── README.md
-└── LICENSE                         # Added only by EXECUTE_FINAL_DOCS
+└── LICENSE                         # MIT License
 ```
 
 Each category owns one task pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions.
@@ -151,4 +153,4 @@ The generated PowerShell files are parser-validated in the development environme
 
 ## License
 
-The repository license will be added separately when the final documentation command `EXECUTE_FINAL_DOCS` is explicitly authorized.
+This project is distributed under the [MIT License](LICENSE).
