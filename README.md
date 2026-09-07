@@ -1,6 +1,6 @@
 # Home Lab Scripts
 
-**Version:** v1.0.1
+**Version:** v1.3.0
 
 **Status:** Public-ready automation toolkit
 
@@ -12,7 +12,7 @@ Home Lab Scripts is a cross-platform collection of operational utilities for loc
 
 Every maintained task is organized by capability and provides functionally equivalent PowerShell and Bash implementations. Configuration is supplied through parameters or environment variables instead of personal paths, private hostnames, credentials, tokens, or private domains.
 
-The repository is intentionally composed of small, inspectable scripts rather than a single runtime application. Each category includes a focused `README.md` with prerequisites and execution examples.
+The repository is intentionally composed of small, inspectable scripts rather than a single runtime application. Each category includes a focused `README.md` with prerequisites and execution examples plus a standalone `generate-pair.prompt.md` that another AI can use to recreate the pair from an empty directory.
 
 ## Technology Stack
 
@@ -32,12 +32,28 @@ home-lab-scripts/
 ├── <category>/
 │   ├── <task>.ps1
 │   ├── <task>.sh
-│   └── README.md
+│   ├── README.md
+│   └── generate-pair.prompt.md
+├── prompts/                         # Source prompts and historical design material
 ├── README.md
 └── LICENSE                         # MIT License
 ```
 
-Each category owns one task pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions.
+Each category owns one task pair, a local enterprise README, and a `generate-pair.prompt.md` contract describing how to regenerate the pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions. Application-design prompts that do not represent shell utilities remain archived under `prompts/` instead of receiving artificial wrappers.
+
+## Recreating a Category From Scratch
+
+The local generation prompt is a portable specification for another AI. It must require the AI to:
+
+1. Generate exactly the named PowerShell script, Bash script, and local README.
+2. Preserve the documented inputs, defaults, output formats, side effects, and platform-specific command choices.
+3. Keep secrets, private paths, hostnames, IP addresses, tokens, and personal identifiers outside source files.
+4. Produce equivalent behavior, explicit error handling, safe mutation controls, and standard-English logs.
+5. Include `Architectural Role`, `Contractual Obligations`, and `Telemetry & Observability` in the local README only.
+6. Parser-validate PowerShell, run `bash -n` where Bash is available, and test the smallest meaningful success and failure cases.
+7. Avoid modifying the root `README.md` or `LICENSE` unless the operator explicitly requests repository documentation changes.
+
+The prompt is intentionally stored beside the implementation so the pair, its operational contract, and its regeneration instructions evolve together. The [prompt catalog](prompts/) explains why application-design and historical prompts do not receive artificial shell wrappers.
 
 ## Operational Principles
 
@@ -101,9 +117,51 @@ Hardware inventory can contain serial numbers and hostnames. Network reports can
 | [network-mapping](network-mapping/) | Map local/public addressing and a configurable route target. | `map-network.ps1` | `map-network.sh` |
 | [network-performance](network-performance/) | Measure latency, jitter, and optional HTTPS download performance. | `measure-network.ps1` | `measure-network.sh` |
 | [repository-indexing](repository-indexing/) | Create a local file inventory without external AI or uploads. | `index-repository.ps1` | `index-repository.sh` |
+| [repository-training-index](repository-training-index/) | Create a local Markdown snapshot of source files for offline training and review. | `generate-training-index.ps1` | `generate-training-index.sh` |
 | [ssh-banner](ssh-banner/) | Install a generic SSH pre-login banner and post-login status message. | `configure-ssh-banner.ps1` | `configure-ssh-banner.sh` |
 | [terraform-documentation](terraform-documentation/) | Aggregate `.tf` files into Markdown HCL blocks. | `document-terraform.ps1` | `document-terraform.sh` |
 | [terraform-generation](terraform-generation/) | Generate a minimal Terraform variables scaffold. | `generate-infrastructure.ps1` | `generate-infrastructure.sh` |
+
+Every row in this table also contains `README.md` and `generate-pair.prompt.md`.
+
+## Generated Artifacts and Side Effects
+
+The local README in each category is the authoritative description of its detailed contract. This summary makes the repository-wide effects visible during review:
+
+| Category | Primary generated artifact or mutation | External side effect |
+| --- | --- | --- |
+| [asset-tag-migration](asset-tag-migration/) | Rewrites top-level JSON files with sequential `assetTag` values. | None; local file mutation only. |
+| [batch-file-renaming](batch-file-renaming/) | Renames top-level files using a generated naming pattern. | None; preview is default. |
+| [directory-indexing](directory-indexing/) | Writes a Markdown directory-link index. | None; local metadata only. |
+| [docker-deployment](docker-deployment/) | Clones source, builds an image, removes/replaces a container, and starts it. | Docker runtime and repository access. |
+| [driver-organization](driver-organization/) | Renames known immediate driver folders. | None; preview is default. |
+| [file-combination](file-combination/) | Writes one combined text file from top-level `.txt` inputs. | None; local file output. |
+| [gemini-export](gemini-export/) | Opens an approved shared URL and writes a Markdown placeholder. | Browser open only; no scraping. |
+| [git-repository-bootstrap](git-repository-bootstrap/) | Creates local Git metadata, origin, README, and initial commit when needed. | No automatic push. |
+| [git-repository-setup](git-repository-setup/) | Writes GitHub workflows, branches, commits, and optionally publishes them. | GitHub CLI, remote creation, and pushes. |
+| [git-security-hardening](git-security-hardening/) | Writes `.gitignore`, untracks local artifacts, and may create a security commit. | No automatic remote push. |
+| [hardware-inventory](hardware-inventory/) | Writes placeholder and null-field hardware JSON inventories. | None; local hardware reads. |
+| [network-diagnostics](network-diagnostics/) | Writes JSON/text reachability, address, and trace reports. | Probe traffic to the selected host. |
+| [network-mapping](network-mapping/) | Writes local/public address and route-mapping reports. | Public-IP lookup and trace traffic. |
+| [network-performance](network-performance/) | Writes latency/jitter and optional HTTPS transfer reports. | ICMP and operator-approved HTTPS traffic. |
+| [repository-indexing](repository-indexing/) | Writes a Markdown file metadata table. | None; no file contents uploaded. |
+| [repository-training-index](repository-training-index/) | Writes a Markdown snapshot containing selected file contents. | None; output may contain secrets. |
+| [ssh-banner](ssh-banner/) | Writes an SSH banner, status script, backup, and daemon configuration. | Elevated host changes and service reload. |
+| [terraform-documentation](terraform-documentation/) | Writes Markdown HCL sections from recursive `.tf` files. | None; source may contain secrets. |
+| [terraform-generation](terraform-generation/) | Writes a minimal `variables.tf` scaffold and README. | None; no provider or infrastructure call. |
+
+## Documentation Standard
+
+Every maintained category README documents the same review questions:
+
+- **Architectural Role:** why the utility exists and where it belongs in an operational workflow.
+- **Contractual Obligations:** accepted inputs, defaults, processing rules, output structure, and failure behavior.
+- **Generated Results:** exact files, reports, commits, runtime resources, or in-place mutations produced by execution.
+- **Safety and Recovery:** destructive effects, sensitive outputs, backups, authorization gates, and recovery actions.
+- **Telemetry & Observability:** local messages, reports, external calls, and data that may appear in logs.
+- **Verification:** focused success, failure, idempotence, and platform checks.
+
+The scripts remain concise and operational. Enterprise architecture prose belongs in these READMEs, while `generate-pair.prompt.md` contains the standalone reconstruction contract for another AI.
 
 ## Quick Start
 
@@ -141,7 +199,27 @@ Review the generated `.gitignore`, staged changes, and commit output before shar
 
 ## Validation
 
-The generated PowerShell files are parser-validated in the development environment. Bash syntax and runtime checks require a Bash-capable environment such as Linux, macOS, WSL, or Git Bash. Scripts that access Docker, GitHub, SSH, hardware, or external network services should be tested in an isolated environment before production use.
+The maintained generation prompts require the following checks for every regenerated pair:
+
+```powershell
+$errors = $null
+[System.Management.Automation.Language.Parser]::ParseFile(
+	(Resolve-Path .\category\task.ps1),
+	[ref]$null,
+	[ref]$errors
+) | Out-Null
+if ($errors.Count -gt 0) { $errors | ForEach-Object Message; exit 1 }
+```
+
+```bash
+bash -n category/task.sh
+```
+
+Bash syntax and runtime checks require Bash 4+ through Linux, macOS, WSL, or Git Bash. Scripts that access Docker, GitHub, SSH, hardware, or external network services should be tested in an isolated environment before production use. Never run destructive or publishing workflows against a shared target before reviewing their generated commands and local README.
+
+## Prompt Catalog
+
+The [prompts](prompts/) directory contains historical source prompts and their disposition. Each maintained category keeps its pair-generation prompt beside the scripts. Prompts that describe Java, Next.js, Micronaut, Postman, or Terraform application architecture are documented as archived design inputs rather than converted into misleading shell pairs.
 
 ## Security Notes
 
