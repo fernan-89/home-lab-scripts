@@ -36,7 +36,7 @@ home-lab-scripts/
 │   └── generate-pair.prompt.md
 ├── prompts/                         # Source prompts and historical design material
 ├── README.md
-└── LICENSE                         # MIT License
+└── LICENSE                         # PolyForm Strict License 1.0.0
 ```
 
 Each category owns one task pair, a local enterprise README, and a `generate-pair.prompt.md` contract describing how to regenerate the pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions. Application-design prompts that do not represent shell utilities remain archived under `prompts/` instead of receiving artificial wrappers.
