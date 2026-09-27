@@ -1,5 +1,7 @@
 # Terraform Documentation
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category creates a reviewable Markdown snapshot of a Terraform source tree. It is a documentation and inspection utility, not a Terraform execution wrapper: it never runs `terraform plan`, `terraform apply`, `terraform init`, or any provider operation.
@@ -14,20 +16,6 @@ Both implementations require:
 
 - A Terraform root directory with read access.
 - An output Markdown path with write access.
-
-PowerShell parameters:
-
-```powershell
-./document-terraform.ps1 `
-		-RootPath C:\path\to\terraform `
-		-OutputPath C:\path\to\terraform.md
-```
-
-Bash positional arguments:
-
-```bash
-./document-terraform.sh /path/to/terraform /path/to/terraform.md
-```
 
 ### Discovery and Ordering
 
@@ -70,16 +58,39 @@ The final document contains:
 - Do not add credentials to command examples or committed files.
 - Recovery: the source tree is never modified, so a wrong or stale output is fixed by deleting it and running the script again.
 
-## Telemetry & Observability
+## Configuration
 
-The scripts emit one local status message containing the number of documented Terraform files and the output path. They collect no external telemetry, make no network calls, and do not upload source content. The output path and source filenames can still reveal infrastructure structure, so treat the generated document as sensitive.
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Terraform root directory | `-RootPath` | `$1` | required |
+| Output Markdown file | `-OutputPath` | `$2` | required |
 
-## Prerequisites
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
+
+## Usage
+
+Prerequisites:
 
 - PowerShell for the `.ps1` implementation or Bash for the `.sh` implementation.
 - Read permission for the Terraform tree.
 - Write permission for the parent directory of the output file.
 - Terraform itself is not required to generate the document.
+
+PowerShell:
+
+```powershell
+./document-terraform.ps1 -RootPath C:\path\to\terraform -OutputPath C:\path\to\terraform.md
+```
+
+Bash:
+
+```bash
+./document-terraform.sh /path/to/terraform /path/to/terraform.md
+```
+
+## Telemetry & Observability
+
+The scripts emit one local status message containing the number of documented Terraform files and the output path. They collect no external telemetry, make no network calls, and do not upload source content. The output path and source filenames can still reveal infrastructure structure, so treat the generated document as sensitive.
 
 ## Verification
 

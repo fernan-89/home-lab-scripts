@@ -1,5 +1,7 @@
 # Git Security Hardening
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility applies a repository-local ignore policy and removes selected local artifacts from Git tracking without deleting them from disk. It is a security hygiene operation with a broad staging and commit side effect.
@@ -17,11 +19,17 @@ This utility applies a repository-local ignore policy and removes selected local
 
 The primary generated artifact is `.gitignore`. The index is changed for selected tracked paths, and the script may create a commit such as `security: apply gitignore and untrack local artifacts`. Files are not deleted from disk, and no remote push is performed.
 
-PowerShell uses `-RepositoryPath`; Bash accepts the repository path as its first argument. Both default to the current directory.
-
 ### Safety and Recovery
 
 Inspect `.gitignore`, `git diff --cached`, and `git status` before committing. A broad rule can hide files unexpectedly; refine it before approval. To recover, restore the previous `.gitignore` from version control and use `git add` to track an intentionally unignored file. This script does not remove secrets from Git history; historical exposure requires separate remediation.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Repository path | `-RepositoryPath` | `$1` | current directory |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

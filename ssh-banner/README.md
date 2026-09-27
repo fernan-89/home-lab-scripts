@@ -1,5 +1,7 @@
 # SSH Banner
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category configures a generic SSH pre-login banner and a post-login system-status script on a Linux host. It changes host configuration and may reload the active SSH service; it does not create users, change authentication policy, or restart the host.
@@ -16,11 +18,20 @@ This category configures a generic SSH pre-login banner and a post-login system-
 
 The scripts create or replace the banner file and executable status script, and update the configured SSH daemon file. They also create `<sshd_config>.bak`. No user accounts, keys, passwords, firewall rules, or authentication methods are changed.
 
-PowerShell uses `-BannerPath`, `-SshConfigPath`, `-MotdPath`, and `-BannerTitle`. Bash uses `BANNER_PATH`, `SSH_CONFIG_PATH`, `MOTD_PATH`, and `SSH_BANNER_TITLE`.
-
 ### Safety and Recovery
 
 Review paths and title before running with elevated privileges. Validate SSH configuration syntax and keep the backup before reloading. If access behavior changes unexpectedly, restore the backup and reload the daemon from an existing console. Do not put hostnames, addresses, credentials, or personal names in the banner.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Pre-login banner file | `-BannerPath` | `BANNER_PATH` | `/etc/ssh/ssh_banner` |
+| SSH daemon configuration | `-SshConfigPath` | `SSH_CONFIG_PATH` | `/etc/ssh/sshd_config` |
+| Post-login status script | `-MotdPath` | `MOTD_PATH` | `/etc/profile.d/ssh-status.sh` |
+| Banner title | `-BannerTitle` or `SSH_BANNER_TITLE` | `SSH_BANNER_TITLE` | `AUTHORIZED SYSTEM` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

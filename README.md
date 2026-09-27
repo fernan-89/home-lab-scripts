@@ -1,5 +1,7 @@
 # Home Lab Scripts
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 **Version:** v1.3.0
 
 **Status:** Public-ready automation toolkit
@@ -12,7 +14,7 @@ Home Lab Scripts is a cross-platform collection of operational utilities for loc
 
 Every maintained task is organized by capability and provides functionally equivalent PowerShell and Bash implementations. Configuration is supplied through parameters or environment variables instead of personal paths, private hostnames, credentials, tokens, or private domains.
 
-The repository is intentionally composed of small, inspectable scripts rather than a single runtime application. Each category includes a focused `README.md` with prerequisites and execution examples plus a standalone `generate-pair.prompt.md` that another AI can use to recreate the pair from an empty directory.
+The repository is intentionally composed of small, inspectable scripts rather than a single runtime application. Each category includes a focused `README.md` in English and its Brazilian Portuguese mirror `README.pt-BR.md`, with configuration tables, prerequisites and execution examples, plus a standalone `generate-pair.prompt.md` that another AI can use to recreate the pair from an empty directory.
 
 ## Technology Stack
 
@@ -32,14 +34,17 @@ home-lab-scripts/
 ├── <category>/
 │   ├── <task>.ps1
 │   ├── <task>.sh
-│   ├── README.md
+│   ├── README.md                   # English
+│   ├── README.pt-BR.md             # Brazilian Portuguese
 │   └── generate-pair.prompt.md
+├── .github/workflows/validate.yml  # CI: script syntax, shellcheck, documentation checks
 ├── .gitattributes                  # LF endings for Bash, CRLF for PowerShell
 ├── README.md
+├── README.pt-BR.md
 └── LICENSE                         # PolyForm Strict License 1.0.0
 ```
 
-Each category owns one task pair, a local enterprise README, and a `generate-pair.prompt.md` contract describing how to regenerate the pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions.
+Each category owns one task pair, a local README in English and Brazilian Portuguese, and a `generate-pair.prompt.md` contract describing how to regenerate the pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions.
 
 ## Recreating a Category From Scratch
 
@@ -52,6 +57,8 @@ The local generation prompt is a portable specification for another AI. It must 
 5. Include `Architectural Role`, `Contractual Obligations`, and `Telemetry & Observability` in the local README only.
 6. Parser-validate PowerShell, run `bash -n` where Bash is available, and test the smallest meaningful success and failure cases.
 7. Avoid modifying the root `README.md` or `LICENSE` unless the operator explicitly requests repository documentation changes.
+
+The prompts regenerate the English `README.md`; update `README.pt-BR.md` in the same change so both languages keep the same sections, configuration table and commands.
 
 The prompt is intentionally stored beside the implementation so the pair, its operational contract, and its regeneration instructions evolve together.
 
@@ -119,7 +126,7 @@ Hardware inventory can contain serial numbers and hostnames. Network reports can
 | [terraform-documentation](terraform-documentation/) | Aggregate `.tf` files into Markdown HCL blocks. | `document-terraform.ps1` | `document-terraform.sh` |
 | [terraform-generation](terraform-generation/) | Generate a minimal Terraform variables scaffold. | `generate-infrastructure.ps1` | `generate-infrastructure.sh` |
 
-Every row in this table also contains `README.md` and `generate-pair.prompt.md`.
+Every row in this table also contains `README.md`, `README.pt-BR.md` and `generate-pair.prompt.md`.
 
 ## Generated Artifacts and Side Effects
 
@@ -148,12 +155,13 @@ The local README in each category is the authoritative description of its detail
 
 ## Documentation Standard
 
-Every maintained category README documents the same review questions:
+Every category README, in both languages, documents the same review questions:
 
 - **Architectural Role:** why the utility exists and where it belongs in an operational workflow.
 - **Contractual Obligations:** accepted inputs, defaults, processing rules, output structure, and failure behavior.
 - **Generated Results:** exact files, reports, commits, runtime resources, or in-place mutations produced by execution.
 - **Safety and Recovery:** destructive effects, sensitive outputs, backups, authorization gates, and recovery actions.
+- **Configuration:** every input, the PowerShell parameter and Bash argument or environment variable that sets it, and its default, taken from the scripts.
 - **Usage:** prerequisites and a PowerShell and a Bash example invocation.
 - **Telemetry & Observability:** local messages, reports, external calls, and data that may appear in logs.
 - **Verification:** focused success, failure, idempotence, and platform checks.
@@ -211,6 +219,8 @@ if ($errors.Count -gt 0) { $errors | ForEach-Object Message; exit 1 }
 ```bash
 bash -n category/task.sh
 ```
+
+The [validate workflow](.github/workflows/validate.yml) runs these checks on every push and pull request, plus `shellcheck` and a documentation check: every category has its five files, and `README.md` and `README.pt-BR.md` have the same sections and commands.
 
 Bash syntax and runtime checks require Bash 4+ through Linux, macOS, WSL, or Git Bash. Scripts that access Docker, GitHub, SSH, hardware, or external network services should be tested in an isolated environment before production use. Never run destructive or publishing workflows against a shared target before reviewing their generated commands and local README.
 

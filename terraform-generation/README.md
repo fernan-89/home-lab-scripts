@@ -1,5 +1,7 @@
 # Terraform Generation
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category generates a minimal Terraform variable scaffold for a new infrastructure workspace. It creates input declarations and guidance only; it does not initialize Terraform, create state, contact a provider, or provision resources.
@@ -17,11 +19,19 @@ This category generates a minimal Terraform variable scaffold for a new infrastr
 
 `variables.tf` contains variable declarations only; no provider, resource, module, backend, state, or network configuration is created. The generated README explains inputs and secret handling. The output directory may be created, and the two named files may be overwritten only with authorization.
 
-PowerShell accepts `-OutputDirectory`, `-CloudRegion`, and `-MongodbProjectId`. Bash uses `TERRAFORM_OUTPUT_DIRECTORY`, `CLOUD_REGION`, and `MONGODB_PROJECT_ID`.
-
 ### Safety and Recovery
 
 Review the output directory before generation. Supply credentials through a secret manager or protected variables at runtime, never by editing committed scaffold files. If generated files are wrong, remove only the scaffold directory or restore it from version control; no cloud rollback is required because no infrastructure was provisioned.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Output directory | `-OutputDirectory` or `TERRAFORM_OUTPUT_DIRECTORY` | `TERRAFORM_OUTPUT_DIRECTORY` or `$1` | `./terraform` |
+| Cloud region | `-Region` or `CLOUD_REGION` | `CLOUD_REGION` | `REPLACE_WITH_REGION` |
+| MongoDB Atlas project ID | `-MongoDbProjectId` or `MONGODB_PROJECT_ID` | `MONGODB_PROJECT_ID` | `REPLACE_WITH_PROJECT_ID` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 
@@ -30,8 +40,6 @@ Prerequisites: PowerShell or Bash. Terraform is required to validate the generat
 PowerShell: `./generate-infrastructure.ps1 -OutputDirectory ./terraform`
 
 Bash: `./generate-infrastructure.sh ./terraform`
-
-Configuration uses `CLOUD_REGION`, `MONGODB_PROJECT_ID`, and `TERRAFORM_OUTPUT_DIRECTORY`.
 
 ## Telemetry & Observability
 

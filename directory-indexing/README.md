@@ -1,5 +1,7 @@
 # Directory Indexing
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility produces a navigable Markdown view of directory structure for local review and handoff. It records names and hierarchy only; it does not read file contents or contact external services.
@@ -15,11 +17,21 @@ This utility produces a navigable Markdown view of directory structure for local
 
 ### Generated Results
 
-The output is a Markdown directory index. It contains one link per discovered directory and no file contents, file sizes, or external URLs. PowerShell exposes `-RootPath`, `-OutputFile`, and `-MaxDepth`; Bash accepts the root and output arguments and uses `MAX_DEPTH=0` for unlimited depth.
+The output is a Markdown directory index. It contains one link per discovered directory and no file contents, file sizes, or external URLs.
 
 ### Safety and Recovery
 
 Review the destination before overwriting an existing README. Directory names can disclose project structure, so treat the generated index as potentially sensitive. The utility does not mutate source directories.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Root directory | `-RootPath` | `$1` | current directory |
+| Output file (inside the root) | `-OutputFile` | `$2` | `README.md` |
+| Maximum depth | `-MaxDepth` | `MAX_DEPTH` | `0` (unlimited) |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

@@ -1,5 +1,7 @@
 # Asset Tag Migration
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility performs a local, deterministic data migration for JSON asset records. It does not discover hardware, call an API, or publish data. Its only mutation is assigning sequential `assetTag` values to top-level JSON files selected by the operator.
@@ -17,11 +19,19 @@ This utility performs a local, deterministic data migration for JSON asset recor
 
 No new report file is created. Each input file is rewritten with its `assetTag` fields updated. For example, an object becomes `ASSET-001`; the next object or array element receives `ASSET-002`. The scripts print the discovered file count, each updated filename, and the next sequence number.
 
-PowerShell parameters are `-JsonDirectory`, `-AssetTagPrefix`, and `-StartNumber`. Bash accepts a directory argument or `JSON_DIRECTORY`, plus `ASSET_TAG_PREFIX` and `START_NUMBER`.
-
 ### Safety and Recovery
 
 Back up or commit the input directory before execution. Review the generated diff and confirm that the numbering order matches the intended business order; filenames and array order control assignment. The migration does not recurse and does not transmit file contents.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| JSON directory | `-JsonDirectory` | `JSON_DIRECTORY` or `$1` | required |
+| Tag prefix | `-AssetTagPrefix` or `ASSET_TAG_PREFIX` | `ASSET_TAG_PREFIX` | `ASSET-` |
+| First sequence number | `-StartNumber` | `START_NUMBER` | `1` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

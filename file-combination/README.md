@@ -1,5 +1,7 @@
 # Text File Combination
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility creates one local text bundle from top-level `.txt` files. It is intended for review, transfer, or archival preparation and does not modify source files.
@@ -17,11 +19,18 @@ This utility creates one local text bundle from top-level `.txt` files. It is in
 
 The output is one text file containing the contents of every selected source file. The scripts do not add hidden metadata or separators beyond the source content, and they do not recurse into child directories. Existing output is replaced deliberately.
 
-PowerShell uses `-InputDirectory` and `-OutputFile`; Bash accepts the input directory and output arguments.
-
 ### Safety and Recovery
 
 Review the source set before execution and back up an existing output if it matters. Source files are read but never deleted or changed. Combined content may contain credentials or private data; inspect it before sharing.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Input directory | `-InputDirectory` | `$1` | current directory |
+| Output file (inside the input directory) | `-OutputFile` | `$2` | `combined.txt` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

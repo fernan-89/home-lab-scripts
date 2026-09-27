@@ -1,5 +1,7 @@
 # Repository Training Index
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category creates a local Markdown snapshot of source contents for offline onboarding, review, or training. Unlike `repository-indexing`, it intentionally includes file bodies and therefore requires stronger handling of generated output.
@@ -20,6 +22,15 @@ The result is `base_treinamento.md` or the configured Markdown path. It contains
 ### Safety and Recovery
 
 The snapshot may contain credentials, private paths, infrastructure identifiers, source code, and confidential documentation. Review and redact it before sharing, store it with restricted permissions, and delete or regenerate it when source content changes. Never treat the generated file as safe for publication by default.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Root directory | `-RootPath` | `$1` | current directory |
+| Output file (inside the root) | `-OutputFile` | `$2` | `base_treinamento.md` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

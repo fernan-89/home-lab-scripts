@@ -1,5 +1,7 @@
 # Network Mapping
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility records a local/public addressing snapshot and a configurable route trace. It is an observational diagnostic and does not configure interfaces, DNS, routing, or firewall rules.
@@ -20,6 +22,17 @@ The output is a plain-text report containing labeled local/public address, endpo
 ### Safety and Recovery
 
 Private/public addresses, hostnames, and routes are sensitive. Use approved endpoints, restrict report access, and redact before sharing. The utility makes no network configuration changes and does not send credentials to the public-IP service.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Trace target | `-TraceTarget` or `TRACE_TARGET` | `TRACE_TARGET` or `$1` | `example.com` |
+| Public-IP service | `-PublicIpServiceUrl` or `PUBLIC_IP_SERVICE_URL` | `PUBLIC_IP_SERVICE_URL` | `https://api.ipify.org` |
+| Report file | `-ReportPath` or `NETWORK_REPORT_PATH` | `NETWORK_REPORT_PATH` or `$2` | `%TEMP%\network-mapping.txt` (PowerShell), `./network-mapping.txt` (Bash) |
+| Maximum hops | `-MaximumHops` | `MAXIMUM_HOPS` | `20` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

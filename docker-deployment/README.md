@@ -1,5 +1,7 @@
 # Docker Deployment
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category is a local deployment orchestrator for a Dockerized application. It synchronizes source code, builds an image, removes the configured previous runtime, and starts a detached replacement container. It is intentionally not a general-purpose release platform.
@@ -16,11 +18,23 @@ This category is a local deployment orchestrator for a Dockerized application. I
 
 No report file is generated. The scripts mutate the configured working directory, create a Docker image, remove any existing image/container with the selected names, and create a running container. The container receives the MongoDB URI as an environment variable and maps `HOST_PORT` to `CONTAINER_PORT`.
 
-PowerShell accepts `-RepositoryUrl`, `-WorkingDirectory`, `-ContainerName`, `-ImageName`, `-MongoDbUri`, `-HostPort`, and `-ContainerPort`. Bash accepts the repository URL and working directory arguments or `GIT_REPOSITORY_URL`, `APP_DIRECTORY`, `CONTAINER_NAME`, `IMAGE_NAME`, `MONGODB_URI`, `HOST_PORT`, and `CONTAINER_PORT`.
-
 ### Safety and Recovery
 
 This operation is destructive. Review the target directory, container name, image name, repository, and ports before execution. Use a versioned source directory, confirm the old container can be removed, and retain the previous image or deployment instructions for rollback. Never commit or print `MONGODB_URI`; rotate it if it was exposed.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Git repository URL | `-RepositoryUrl` or `GIT_REPOSITORY_URL` | `GIT_REPOSITORY_URL` or `$1` | required |
+| Working directory (deleted and re-cloned) | `-WorkingDirectory` | `APP_DIRECTORY` or `$2` | `./source` |
+| Container name | `-ContainerName` or `CONTAINER_NAME` | `CONTAINER_NAME` | `home-lab-app` |
+| Image name | `-ImageName` or `IMAGE_NAME` | `IMAGE_NAME` | `home-lab-app:latest` |
+| MongoDB connection string | `-MongoDbUri` or `MONGODB_URI` | `MONGODB_URI` | required |
+| Host port | `-HostPort` or `HOST_PORT` | `HOST_PORT` | `8080` |
+| Container port | `-ContainerPort` or `CONTAINER_PORT` | `CONTAINER_PORT` | `8080` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 
