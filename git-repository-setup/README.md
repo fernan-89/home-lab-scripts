@@ -1,16 +1,8 @@
 # Existing Repository Setup
 
-Configures an existing local repository with GitHub Actions branches and publishes it through the authenticated GitHub CLI. Root documentation files are intentionally not generated until the final documentation command is authorized.
-
-Prerequisites: Git, GitHub CLI (`gh`), an authenticated `gh` session, and network access to GitHub.
-
-PowerShell: `./setup-existing-repository.ps1 -RepositoryPath C:\path\to\repository -GitIgnoreLanguage PowerShell -Visibility private`
-
-Bash: `GITIGNORE_LANGUAGE=PowerShell REPOSITORY_VISIBILITY=private ./setup-existing-repository.sh /path/to/repository`
-
 ## Architectural Role
 
-This category configures an existing repository for a GitHub workflow and can publish branches through the GitHub CLI. It is a high-impact repository administration tool, not a passive local formatter.
+This category configures an existing repository for a GitHub workflow and can publish branches through the GitHub CLI. It is a high-impact repository administration tool, not a passive local formatter. Root documentation files are intentionally not generated until the final documentation command is authorized.
 
 ## Contractual Obligations
 
@@ -30,6 +22,14 @@ PowerShell requires `-RepositoryPath` and supports repository name, Gitignore la
 ### Safety and Recovery
 
 Review generated workflows, target owner/name, visibility, branches, and remote before approving publication. Back up or commit local work first. If a remote operation fails, inspect `git status`, `git branch -a`, and `gh repo view`; do not retry blindly or force-push.
+
+## Usage
+
+Prerequisites: Git, GitHub CLI (`gh`), an authenticated `gh` session, and network access to GitHub.
+
+PowerShell: `./setup-existing-repository.ps1 -RepositoryPath C:\path\to\repository -GitIgnoreLanguage PowerShell -Visibility private`
+
+Bash: `GITIGNORE_LANGUAGE=PowerShell REPOSITORY_VISIBILITY=private ./setup-existing-repository.sh /path/to/repository`
 
 ## Telemetry & Observability
 

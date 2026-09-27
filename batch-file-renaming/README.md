@@ -23,15 +23,7 @@ PowerShell uses `-Directory`, `-FirstWord`, `-SecondWord`, and `-Apply`. Bash ac
 
 Run the preview first and review every destination. Create a backup or commit before applying. A failed or interrupted rename may require manual recovery from the printed mapping; scripts must never overwrite an existing file.
 
-## Telemetry & Observability
-
-Output contains proposed mappings, applied mappings, and no-op messages only. No network calls or external telemetry occur. Filenames may disclose business information, so redirect output only to a controlled location.
-
-## Verification
-
-Test preview mode, apply mode in a temporary directory, empty input, spaces in filenames, invalid words, duplicate targets, and an existing target file. Confirm extensions remain unchanged and the final directory contains no unintended overwrite.
-
-Generates names in the format `ABC-DEF-001-RANDOMID-YYYYMMDD.extension`. The default mode is a dry run.
+## Usage
 
 Prerequisites: PowerShell or Bash with permission to rename files.
 
@@ -42,3 +34,11 @@ PowerShell apply: `./rename-files.ps1 -Directory C:\path\to\files -FirstWord mob
 Bash dry run: `./rename-files.sh /path/to/files mobile wallpaper`
 
 Bash apply: `APPLY_CHANGES=true ./rename-files.sh /path/to/files mobile wallpaper`
+
+## Telemetry & Observability
+
+Output contains proposed mappings, applied mappings, and no-op messages only. No network calls or external telemetry occur. Filenames may disclose business information, so redirect output only to a controlled location.
+
+## Verification
+
+Test preview mode, apply mode in a temporary directory, empty input, spaces in filenames, invalid words, duplicate targets, and an existing target file. Confirm extensions remain unchanged and the final directory contains no unintended overwrite.

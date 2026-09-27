@@ -20,6 +20,14 @@ The generated `shared-chat.md` is a placeholder for content the operator manuall
 
 Confirm the URL belongs to an approved share before opening it. Redact credentials, personal data, private infrastructure, and confidential conversation content before saving or sharing the Markdown file. The output may overwrite an existing export, so back it up when required.
 
+## Usage
+
+Prerequisites: a browser and an approved Gemini share URL. Credentials are never stored by these scripts.
+
+PowerShell: `./export-shared-chat.ps1 -ShareUrl https://gemini.google.com/share/EXAMPLE`
+
+Bash: `./export-shared-chat.sh https://gemini.google.com/share/EXAMPLE`
+
 ## Telemetry & Observability
 
 Only local browser/opening and output-path status is reported. No external telemetry, scraping, or upload occurs. The shared URL and pasted chat content can be sensitive.
@@ -27,9 +35,3 @@ Only local browser/opening and output-path status is reported. No external telem
 ## Verification
 
 Test an approved HTTPS URL, invalid schemes, unsupported hosts, unavailable browser openers, output paths with spaces, and manual review of the generated placeholder.
-
-Prerequisites: a browser and an approved Gemini share URL. Credentials are never stored by these scripts.
-
-PowerShell: `./export-shared-chat.ps1 -ShareUrl https://gemini.google.com/share/EXAMPLE`
-
-Bash: `./export-shared-chat.sh https://gemini.google.com/share/EXAMPLE`

@@ -23,6 +23,14 @@ PowerShell parameters are `-JsonDirectory`, `-AssetTagPrefix`, and `-StartNumber
 
 Back up or commit the input directory before execution. Review the generated diff and confirm that the numbering order matches the intended business order; filenames and array order control assignment. The migration does not recurse and does not transmit file contents.
 
+## Usage
+
+Prerequisites: PowerShell with JSON cmdlets, or Bash with `jq`. Back up the input directory before running.
+
+PowerShell: `./update-asset-tags.ps1 -JsonDirectory C:\path\to\json -AssetTagPrefix ASSET- -StartNumber 1`
+
+Bash: `ASSET_TAG_PREFIX=ASSET- START_NUMBER=1 ./update-asset-tags.sh /path/to/json`
+
 ## Telemetry & Observability
 
 Only local progress messages are emitted. No external telemetry or network access occurs. JSON files may contain asset identifiers and must be treated as sensitive after migration.
@@ -30,11 +38,3 @@ Only local progress messages are emitted. No external telemetry or network acces
 ## Verification
 
 Test one object, an array, multiple files, an empty directory, invalid JSON, custom prefix, and a non-default starting number. Validate resulting files with a JSON parser before importing them elsewhere.
-
-Adds sequential `assetTag` values to JSON objects or to every object in a JSON array. Files are overwritten in place.
-
-Prerequisites: PowerShell with JSON cmdlets, or Bash with `jq`. Back up the input directory before running.
-
-PowerShell: `./update-asset-tags.ps1 -JsonDirectory C:\path\to\json -AssetTagPrefix ASSET- -StartNumber 1`
-
-Bash: `ASSET_TAG_PREFIX=ASSET- START_NUMBER=1 ./update-asset-tags.sh /path/to/json`

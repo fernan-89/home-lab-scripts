@@ -20,6 +20,14 @@ The placeholder file contains explicit replacement strings for fields that requi
 
 Protect the output directory and redact sensitive fields before sharing. Running again overwrites the two named JSON files, so archive prior results when historical comparison matters. Bash may require elevated access for `dmidecode`; missing privileges should be reported rather than bypassed unsafely.
 
+## Usage
+
+Prerequisites: Windows CIM cmdlets for PowerShell. Bash requires `jq`, `dmidecode`, `lscpu`, `free`, `lsblk`, and `lspci`; root privileges may be required for complete hardware data.
+
+PowerShell: `./collect-inventory.ps1 -OutputDirectory ./inventory`
+
+Bash: `./collect-inventory.sh ./inventory`
+
 ## Telemetry & Observability
 
 Only local collection status and output paths are reported. No network calls or external telemetry occur. Treat generated JSON as sensitive inventory evidence.
@@ -27,11 +35,3 @@ Only local collection status and output paths are reported. No network calls or 
 ## Verification
 
 Validate both outputs as JSON, confirm both files exist, inspect the stable schema, test missing platform commands, and verify that credentials or unrelated user data are not collected.
-
-Collects local hardware and operating-system metadata, then writes two JSON files: one with explicit replacement placeholders and one with `null` for manually maintained fields. Inventory may include serial numbers and hostnames and should be handled as sensitive output.
-
-Prerequisites: Windows CIM cmdlets for PowerShell. Bash requires `jq`, `dmidecode`, `lscpu`, `free`, `lsblk`, and `lspci`; root privileges may be required for complete hardware data.
-
-PowerShell: `./collect-inventory.ps1 -OutputDirectory ./inventory`
-
-Bash: `./collect-inventory.sh ./inventory`

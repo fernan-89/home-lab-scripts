@@ -20,6 +20,14 @@ PowerShell writes `network-report.json` with computer name, probe host, UTC time
 
 Probe hosts, addresses, routes, and external responses can be sensitive. Use an approved target, protect the report, and redact it before sharing. The scripts do not alter interfaces, routes, firewall rules, or DNS settings.
 
+## Usage
+
+Prerequisites: network utilities and permission to write the report. The probe host is configurable and no private address is embedded.
+
+PowerShell: `./inspect-network.ps1 -ProbeHost example.com -OutputFile network-report.json`
+
+Bash: `NETWORK_PROBE_HOST=example.com ./inspect-network.sh`
+
 ## Telemetry & Observability
 
 All evidence remains in the selected local report. No separate telemetry or upload occurs. Status messages identify the output path and failures without hiding command errors.
@@ -27,9 +35,3 @@ All evidence remains in the selected local report. No separate telemetry or uplo
 ## Verification
 
 Test a reachable and unreachable host, missing `ping`/trace utilities, an output path with spaces, and repeated execution. Confirm failures remain distinguishable from empty results.
-
-Prerequisites: network utilities and permission to write the report. The probe host is configurable and no private address is embedded.
-
-PowerShell: `./inspect-network.ps1 -ProbeHost example.com -OutputFile network-report.json`
-
-Bash: `NETWORK_PROBE_HOST=example.com ./inspect-network.sh`

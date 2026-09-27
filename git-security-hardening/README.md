@@ -23,24 +23,16 @@ PowerShell uses `-RepositoryPath`; Bash accepts the repository path as its first
 
 Inspect `.gitignore`, `git diff --cached`, and `git status` before committing. A broad rule can hide files unexpectedly; refine it before approval. To recover, restore the previous `.gitignore` from version control and use `git add` to track an intentionally unignored file. This script does not remove secrets from Git history; historical exposure requires separate remediation.
 
-## Telemetry & Observability
+## Usage
 
-Only local Git status, staged paths, and commit output are emitted. No external telemetry occurs. Paths and staged filenames may reveal private project structure.
-
-## Verification
-
-Test tracked and untracked build artifacts, existing ignore rules, a missing Git identity, a declined confirmation, and a clean repository. Confirm ignored files remain on disk and no remote changes occur.
-
-Creates a repository `.gitignore`, removes matching build/cache/IDE paths from the Git index, stages the changes, and commits them.
-
-## Prerequisites
+### Prerequisites
 
 - Git installed and available on `PATH`.
 - A target directory that is already a Git repository.
 - Permission to modify the working tree and create commits.
 - Git user identity configured with `git config user.name` and `git config user.email`.
 
-## PowerShell
+### PowerShell
 
 Run from any location and provide the repository root:
 
@@ -54,7 +46,7 @@ Or run it from the repository root:
 .\configure-git-security.ps1
 ```
 
-## Bash
+### Bash
 
 Make the script executable once, then provide the repository root as the first argument:
 
@@ -69,8 +61,16 @@ Or run it from the repository root:
 ./configure-git-security.sh
 ```
 
-## Notes
+### Notes
 
 - Both versions commit changes automatically.
 - Review `git status` and the generated `.gitignore` before running this script in a shared repository.
 - The script does not remove ignored files from disk; it only removes matching paths from the Git index.
+
+## Telemetry & Observability
+
+Only local Git status, staged paths, and commit output are emitted. No external telemetry occurs. Paths and staged filenames may reveal private project structure.
+
+## Verification
+
+Test tracked and untracked build artifacts, existing ignore rules, a missing Git identity, a declined confirmation, and a clean repository. Confirm ignored files remain on disk and no remote changes occur.

@@ -22,13 +22,7 @@ PowerShell accepts `-RepositoryUrl`, `-WorkingDirectory`, `-ContainerName`, `-Im
 
 This operation is destructive. Review the target directory, container name, image name, repository, and ports before execution. Use a versioned source directory, confirm the old container can be removed, and retain the previous image or deployment instructions for rollback. Never commit or print `MONGODB_URI`; rotate it if it was exposed.
 
-## Telemetry & Observability
-
-The scripts emit local Docker/Git lifecycle output and the final container start result. They do not collect external telemetry. Use `docker ps`, `docker logs`, and `docker inspect` after deployment; redact secrets from captured logs.
-
-## Verification
-
-Validate configuration with Docker unavailable, test an isolated repository, confirm the built image and port mapping, inspect container environment handling, and verify that failed builds do not produce a false success message.
+## Usage
 
 Prerequisites: Git, Docker, a repository URL, and `MONGODB_URI` supplied through the environment.
 
@@ -37,3 +31,11 @@ PowerShell: `./deploy-container.ps1 -RepositoryUrl $env:GIT_REPOSITORY_URL`
 Bash: `GIT_REPOSITORY_URL=https://example.invalid/project.git MONGODB_URI='mongodb://user:password@example.invalid/db' ./deploy-container.sh`
 
 Optional variables: `APP_DIRECTORY`, `CONTAINER_NAME`, `IMAGE_NAME`, `HOST_PORT`, and `CONTAINER_PORT`.
+
+## Telemetry & Observability
+
+The scripts emit local Docker/Git lifecycle output and the final container start result. They do not collect external telemetry. Use `docker ps`, `docker logs`, and `docker inspect` after deployment; redact secrets from captured logs.
+
+## Verification
+
+Validate configuration with Docker unavailable, test an isolated repository, confirm the built image and port mapping, inspect container environment handling, and verify that failed builds do not produce a false success message.

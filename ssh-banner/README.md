@@ -22,15 +22,7 @@ PowerShell uses `-BannerPath`, `-SshConfigPath`, `-MotdPath`, and `-BannerTitle`
 
 Review paths and title before running with elevated privileges. Validate SSH configuration syntax and keep the backup before reloading. If access behavior changes unexpectedly, restore the backup and reload the daemon from an existing console. Do not put hostnames, addresses, credentials, or personal names in the banner.
 
-## Telemetry & Observability
-
-Only local installation and reload status is reported. The generated login status displays host telemetry to authorized users; it is not sent to an external service. Host and address values may be sensitive.
-
-## Verification
-
-Test with temporary paths, verify the backup, inspect the single `Banner` directive, check status-script permissions, validate SSH configuration, and confirm reload behavior for both `ssh` and `sshd` service names.
-
-Installs a generic pre-login SSH banner and a post-login system-status message. The script creates a backup of the SSH configuration before editing it.
+## Usage
 
 Prerequisites: an SSH server, `sudo`, `systemctl`, and permission to modify `/etc/ssh` and `/etc/profile.d`.
 
@@ -39,3 +31,11 @@ PowerShell: `./configure-ssh-banner.ps1`
 Bash: `SSH_BANNER_TITLE='AUTHORIZED SYSTEM' ./configure-ssh-banner.sh`
 
 Override paths with `BANNER_PATH`, `SSH_CONFIG_PATH`, and `MOTD_PATH` in Bash, or the corresponding PowerShell parameters.
+
+## Telemetry & Observability
+
+Only local installation and reload status is reported. The generated login status displays host telemetry to authorized users; it is not sent to an external service. Host and address values may be sensitive.
+
+## Verification
+
+Test with temporary paths, verify the backup, inspect the single `Banner` directive, check status-script permissions, validate SSH configuration, and confirm reload behavior for both `ssh` and `sshd` service names.

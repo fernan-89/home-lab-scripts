@@ -21,6 +21,14 @@ The output is a Markdown directory index. It contains one link per discovered di
 
 Review the destination before overwriting an existing README. Directory names can disclose project structure, so treat the generated index as potentially sensitive. The utility does not mutate source directories.
 
+## Usage
+
+Prerequisites: PowerShell or Bash and write access to the target directory.
+
+PowerShell: `./generate-directory-index.ps1 -RootPath ./data -MaxDepth 3`
+
+Bash: `MAX_DEPTH=3 ./generate-directory-index.sh ./data README.md`
+
 ## Telemetry & Observability
 
 Only the output path is reported locally. No telemetry, network calls, or uploads occur. Failures identify the invalid root or output path without exposing file contents.
@@ -28,9 +36,3 @@ Only the output path is reported locally. No telemetry, network calls, or upload
 ## Verification
 
 Test unlimited and bounded depth, an empty tree, nested directories, names containing spaces or Markdown characters, an invalid root, and an unwritable output. Confirm links resolve relative to the selected root.
-
-Prerequisites: PowerShell or Bash and write access to the target directory.
-
-PowerShell: `./generate-directory-index.ps1 -RootPath ./data -MaxDepth 3`
-
-Bash: `MAX_DEPTH=3 ./generate-directory-index.sh ./data README.md`
