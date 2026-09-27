@@ -21,15 +21,7 @@ The output is a plain-text report containing labeled local/public address, endpo
 
 Private/public addresses, hostnames, and routes are sensitive. Use approved endpoints, restrict report access, and redact before sharing. The utility makes no network configuration changes and does not send credentials to the public-IP service.
 
-## Telemetry & Observability
-
-Only the local report and status messages are produced. There is no external telemetry beyond the operator-selected public-IP request. The report records enough evidence to reproduce the diagnostic context.
-
-## Verification
-
-Test successful and unavailable public-IP lookup, missing trace command, invalid hop limit, a custom report path, and a target that cannot be reached. Confirm the fallback is explicit rather than mistaken for a real address.
-
-Collects the local hostname/address, queries a configurable public-IP service, and runs a configurable traceroute. The report may contain private and public network addresses.
+## Usage
 
 Prerequisites: PowerShell networking cmdlets and `tracert.exe` on Windows, or `hostname`, `traceroute`, and optionally `curl` on Linux/macOS.
 
@@ -38,3 +30,11 @@ PowerShell: `./map-network.ps1 -TraceTarget example.com -ReportPath ./network-ma
 Bash: `./map-network.sh example.com ./network-mapping.txt`
 
 Environment overrides: `TRACE_TARGET`, `PUBLIC_IP_SERVICE_URL`, `NETWORK_REPORT_PATH`, and `MAXIMUM_HOPS`.
+
+## Telemetry & Observability
+
+Only the local report and status messages are produced. There is no external telemetry beyond the operator-selected public-IP request. The report records enough evidence to reproduce the diagnostic context.
+
+## Verification
+
+Test successful and unavailable public-IP lookup, missing trace command, invalid hop limit, a custom report path, and a target that cannot be reached. Confirm the fallback is explicit rather than mistaken for a real address.

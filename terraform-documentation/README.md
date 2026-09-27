@@ -60,7 +60,7 @@ The final document contains:
 - A horizontal separator between files.
 - No generated Terraform state, provider output, plan, or resource evaluation.
 
-### Failure and Safety Behavior
+### Safety and Recovery
 
 - Fail fast when the root directory is invalid.
 - Fail when the source tree has no `.tf` files.
@@ -68,6 +68,7 @@ The final document contains:
 - Use a temporary or version-controlled output location when reviewing changes.
 - Review the generated document before publishing because Terraform source may contain credentials, private endpoints, account IDs, tokens, or sensitive variables.
 - Do not add credentials to command examples or committed files.
+- Recovery: the source tree is never modified, so a wrong or stale output is fixed by deleting it and running the script again.
 
 ## Telemetry & Observability
 

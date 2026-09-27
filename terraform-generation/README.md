@@ -23,13 +23,7 @@ PowerShell accepts `-OutputDirectory`, `-CloudRegion`, and `-MongodbProjectId`. 
 
 Review the output directory before generation. Supply credentials through a secret manager or protected variables at runtime, never by editing committed scaffold files. If generated files are wrong, remove only the scaffold directory or restore it from version control; no cloud rollback is required because no infrastructure was provisioned.
 
-## Telemetry & Observability
-
-Only generated paths and local status are reported. No provider calls or external telemetry occur. Treat the generated README and variables as configuration artifacts until reviewed.
-
-## Verification
-
-Inspect both files, validate Terraform syntax when Terraform is available, test placeholder and custom values, test overwrite refusal, and confirm no provider/resource/backend blocks or real secrets were generated.
+## Usage
 
 Prerequisites: PowerShell or Bash. Terraform is required to validate the generated files.
 
@@ -38,3 +32,11 @@ PowerShell: `./generate-infrastructure.ps1 -OutputDirectory ./terraform`
 Bash: `./generate-infrastructure.sh ./terraform`
 
 Configuration uses `CLOUD_REGION`, `MONGODB_PROJECT_ID`, and `TERRAFORM_OUTPUT_DIRECTORY`.
+
+## Telemetry & Observability
+
+Only generated paths and local status are reported. No provider calls or external telemetry occur. Treat the generated README and variables as configuration artifacts until reviewed.
+
+## Verification
+
+Inspect both files, validate Terraform syntax when Terraform is available, test placeholder and custom values, test overwrite refusal, and confirm no provider/resource/backend blocks or real secrets were generated.

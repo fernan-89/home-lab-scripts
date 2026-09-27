@@ -21,6 +21,14 @@ PowerShell writes `network-performance.json` with structured per-host and per-do
 
 Use hosts and URLs approved for testing; repeated ICMP or download tests can affect service quotas. Reports may reveal topology and external endpoints. The scripts do not tune interfaces, alter routes, or retain downloaded payloads.
 
+## Usage
+
+Prerequisites: ICMP access and the `ping` utility. Optional download tests use trusted HTTPS URLs supplied by the operator; certificate validation is never disabled.
+
+PowerShell: `./measure-network.ps1 -ProbeHost example.com -Count 4 -DownloadUrl https://example.com/test.bin`
+
+Bash: `PING_COUNT=4 NETWORK_TEST_URLS=https://example.com/test.bin ./measure-network.sh example.com`
+
 ## Telemetry & Observability
 
 Measurement output is local and operator-selected; no separate telemetry service is used. The report records test inputs and timestamps necessary to interpret results. Redact private addresses before sharing.
@@ -28,9 +36,3 @@ Measurement output is local and operator-selected; no separate telemetry service
 ## Verification
 
 Test one host, multiple hosts, packet loss, invalid sample counts, no download URLs, a trusted HTTPS download, timeout behavior, and malformed endpoints. Confirm metrics are not reported as successful when tools fail.
-
-Prerequisites: ICMP access and the `ping` utility. Optional download tests use trusted HTTPS URLs supplied by the operator; certificate validation is never disabled.
-
-PowerShell: `./measure-network.ps1 -ProbeHost example.com -Count 4 -DownloadUrl https://example.com/test.bin`
-
-Bash: `PING_COUNT=4 NETWORK_TEST_URLS=https://example.com/test.bin ./measure-network.sh example.com`

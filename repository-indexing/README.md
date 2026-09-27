@@ -23,15 +23,7 @@ PowerShell uses `-RootPath`, `-Recurse`, and `-OutputFile`. Bash accepts root an
 
 Paths, names, sizes, and timestamps can expose repository structure. Review and protect the index before sharing. The utility does not alter source files, delete files, upload data, or call an AI service.
 
-## Telemetry & Observability
-
-Only the local output path is reported. The table itself is the diagnostic artifact; no external telemetry is collected.
-
-## Verification
-
-Test recursive and non-recursive modes, output self-exclusion, an empty directory, filenames with spaces, invalid roots, and repeated execution. Confirm every row links relative to the selected root and no contents are embedded.
-
-Creates a local Markdown inventory of files, types, sizes, and modification times. It does not upload content or call external AI services.
+## Usage
 
 Prerequisites: PowerShell or Bash with read access to the tree and write access to the output path.
 
@@ -40,3 +32,11 @@ PowerShell recursive: `./index-repository.ps1 -RootPath C:\path\to\repository -R
 Bash recursive: `RECURSIVE=true ./index-repository.sh /path/to/repository README_INDEX.md`
 
 Treat generated metadata as potentially sensitive because paths and timestamps may reveal local information.
+
+## Telemetry & Observability
+
+Only the local output path is reported. The table itself is the diagnostic artifact; no external telemetry is collected.
+
+## Verification
+
+Test recursive and non-recursive modes, output self-exclusion, an empty directory, filenames with spaces, invalid roots, and repeated execution. Confirm every row links relative to the selected root and no contents are embedded.

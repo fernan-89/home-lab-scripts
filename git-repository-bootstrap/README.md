@@ -21,6 +21,14 @@ The scripts may create `.git`, `README.md`, Git configuration for `origin`, and 
 
 Inspect the target path and remote URL before execution. Use a disposable or version-controlled directory for first tests. Existing remotes and README files are protected; review `git status`, `git remote -v`, and the commit before any later publishing operation.
 
+## Usage
+
+Prerequisites: Git and an authenticated remote configured for the supplied URL.
+
+PowerShell: `$env:GIT_REMOTE_URL='https://example.invalid/repository.git'; ./bootstrap-repository.ps1 -RepositoryPath ./repository`
+
+Bash: `GIT_REMOTE_URL=https://example.invalid/repository.git ./bootstrap-repository.sh ./repository`
+
 ## Telemetry & Observability
 
 Only local Git command status, repository path, and mutation summaries are emitted. No external telemetry or remote push is performed by the bootstrap operation itself. Remote URLs can disclose private infrastructure and should be redacted in shared logs.
@@ -28,9 +36,3 @@ Only local Git command status, repository path, and mutation summaries are emitt
 ## Verification
 
 Test a new directory, an existing repository, an existing origin, a missing remote URL, a custom branch, and a second idempotent run. Confirm no unrelated files are deleted or rewritten.
-
-Prerequisites: Git and an authenticated remote configured for the supplied URL.
-
-PowerShell: `$env:GIT_REMOTE_URL='https://example.invalid/repository.git'; ./bootstrap-repository.ps1 -RepositoryPath ./repository`
-
-Bash: `GIT_REMOTE_URL=https://example.invalid/repository.git ./bootstrap-repository.sh ./repository`

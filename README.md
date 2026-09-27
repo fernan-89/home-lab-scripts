@@ -34,12 +34,12 @@ home-lab-scripts/
 │   ├── <task>.sh
 │   ├── README.md
 │   └── generate-pair.prompt.md
-├── prompts/                         # Source prompts and historical design material
+├── .gitattributes                  # LF endings for Bash, CRLF for PowerShell
 ├── README.md
 └── LICENSE                         # PolyForm Strict License 1.0.0
 ```
 
-Each category owns one task pair, a local enterprise README, and a `generate-pair.prompt.md` contract describing how to regenerate the pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions. Application-design prompts that do not represent shell utilities remain archived under `prompts/` instead of receiving artificial wrappers.
+Each category owns one task pair, a local enterprise README, and a `generate-pair.prompt.md` contract describing how to regenerate the pair. The PowerShell and Bash versions share the same operational intent while respecting platform-native commands and conventions.
 
 ## Recreating a Category From Scratch
 
@@ -53,7 +53,7 @@ The local generation prompt is a portable specification for another AI. It must 
 6. Parser-validate PowerShell, run `bash -n` where Bash is available, and test the smallest meaningful success and failure cases.
 7. Avoid modifying the root `README.md` or `LICENSE` unless the operator explicitly requests repository documentation changes.
 
-The prompt is intentionally stored beside the implementation so the pair, its operational contract, and its regeneration instructions evolve together. The [prompt catalog](prompts/) explains why application-design and historical prompts do not receive artificial shell wrappers.
+The prompt is intentionally stored beside the implementation so the pair, its operational contract, and its regeneration instructions evolve together.
 
 ## Operational Principles
 
@@ -81,12 +81,10 @@ Use a secret manager, CI secret store, or protected local environment for real c
 Operations that rename folders or files default to a preview mode. Apply changes only after reviewing the proposed mapping:
 
 ```powershell
-./driver-organization/standardize-driver-folders.ps1 -BasePath C:\path\to\drivers -Apply
 ./batch-file-renaming/rename-files.ps1 -Directory C:\path\to\files -FirstWord mobile -SecondWord wallpaper -Apply
 ```
 
 ```bash
-APPLY_CHANGES=true ./driver-organization/standardize-driver-folders.sh /path/to/drivers
 APPLY_CHANGES=true ./batch-file-renaming/rename-files.sh /path/to/files mobile wallpaper
 ```
 
@@ -106,7 +104,6 @@ Hardware inventory can contain serial numbers and hostnames. Network reports can
 | [batch-file-renaming](batch-file-renaming/) | Rename files using a generated prefix, sequence, random ID, and date. | `rename-files.ps1` | `rename-files.sh` |
 | [directory-indexing](directory-indexing/) | Generate a Markdown index of directories. | `generate-directory-index.ps1` | `generate-directory-index.sh` |
 | [docker-deployment](docker-deployment/) | Clone, build, and run a Dockerized application. | `deploy-container.ps1` | `deploy-container.sh` |
-| [driver-organization](driver-organization/) | Standardize known driver folder names. | `standardize-driver-folders.ps1` | `standardize-driver-folders.sh` |
 | [file-combination](file-combination/) | Combine top-level text files into one output file. | `combine-text-files.ps1` | `combine-text-files.sh` |
 | [gemini-export](gemini-export/) | Open an approved shared-chat URL and create a manual export file. | `export-shared-chat.ps1` | `export-shared-chat.sh` |
 | [git-repository-bootstrap](git-repository-bootstrap/) | Initialize a local repository and configure its remote. | `bootstrap-repository.ps1` | `bootstrap-repository.sh` |
@@ -134,7 +131,6 @@ The local README in each category is the authoritative description of its detail
 | [batch-file-renaming](batch-file-renaming/) | Renames top-level files using a generated naming pattern. | None; preview is default. |
 | [directory-indexing](directory-indexing/) | Writes a Markdown directory-link index. | None; local metadata only. |
 | [docker-deployment](docker-deployment/) | Clones source, builds an image, removes/replaces a container, and starts it. | Docker runtime and repository access. |
-| [driver-organization](driver-organization/) | Renames known immediate driver folders. | None; preview is default. |
 | [file-combination](file-combination/) | Writes one combined text file from top-level `.txt` inputs. | None; local file output. |
 | [gemini-export](gemini-export/) | Opens an approved shared URL and writes a Markdown placeholder. | Browser open only; no scraping. |
 | [git-repository-bootstrap](git-repository-bootstrap/) | Creates local Git metadata, origin, README, and initial commit when needed. | No automatic push. |
@@ -158,6 +154,7 @@ Every maintained category README documents the same review questions:
 - **Contractual Obligations:** accepted inputs, defaults, processing rules, output structure, and failure behavior.
 - **Generated Results:** exact files, reports, commits, runtime resources, or in-place mutations produced by execution.
 - **Safety and Recovery:** destructive effects, sensitive outputs, backups, authorization gates, and recovery actions.
+- **Usage:** prerequisites and a PowerShell and a Bash example invocation.
 - **Telemetry & Observability:** local messages, reports, external calls, and data that may appear in logs.
 - **Verification:** focused success, failure, idempotence, and platform checks.
 
@@ -178,7 +175,7 @@ RECURSIVE=true ./repository-indexing/index-repository.sh . README_INDEX.md
 ### Run a Safe Preview
 
 ```powershell
-./driver-organization/standardize-driver-folders.ps1 -BasePath C:\path\to\drivers
+./batch-file-renaming/rename-files.ps1 -Directory C:\path\to\files -FirstWord mobile -SecondWord wallpaper
 ```
 
 ```bash
@@ -219,7 +216,7 @@ Bash syntax and runtime checks require Bash 4+ through Linux, macOS, WSL, or Git
 
 ## Prompt Catalog
 
-The [prompts](prompts/) directory contains historical source prompts and their disposition. Each maintained category keeps its pair-generation prompt beside the scripts. Prompts that describe Java, Next.js, Micronaut, Postman, or Terraform application architecture are documented as archived design inputs rather than converted into misleading shell pairs.
+Each category keeps its `generate-pair.prompt.md` beside the scripts it regenerates, so the pair, its operational contract, and its regeneration instructions change together in the same commit.
 
 ## Security Notes
 
@@ -231,4 +228,4 @@ The [prompts](prompts/) directory contains historical source prompts and their d
 
 ## License
 
-This project is distributed under the [MIT License](LICENSE).
+Licensed under the [PolyForm Strict License 1.0.0](LICENSE): you may read and use this software for noncommercial purposes only. Modifying it, creating derivative works, redistributing it and any commercial use are not permitted without a separate written license. This software is not open source.
