@@ -1,5 +1,7 @@
 # Network Diagnostics
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category captures a point-in-time local connectivity diagnosis: interface addresses, reachability probes, and a short route trace. It creates evidence for troubleshooting and does not change network configuration.
@@ -19,6 +21,15 @@ PowerShell writes `network-report.json` with computer name, probe host, UTC time
 ### Safety and Recovery
 
 Probe hosts, addresses, routes, and external responses can be sensitive. Use an approved target, protect the report, and redact it before sharing. The scripts do not alter interfaces, routes, firewall rules, or DNS settings.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Probe host | `-ProbeHost` or `NETWORK_PROBE_HOST` | `NETWORK_PROBE_HOST` or `$1` | `example.com` |
+| Report file | `-OutputFile` | `NETWORK_OUTPUT_FILE` | `network-report.json` (PowerShell), `network-report.txt` (Bash) |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

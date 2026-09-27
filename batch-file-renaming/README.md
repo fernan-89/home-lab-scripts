@@ -1,5 +1,7 @@
 # Batch File Renaming
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility applies a controlled naming policy to files in one directory. It is designed for repeatable local organization, with preview as the default and mutation explicitly enabled by the operator.
@@ -17,11 +19,20 @@ This utility applies a controlled naming policy to files in one directory. It is
 
 The scripts do not create a report file. They generate a mapping in stdout and, in apply mode, rename files in place. The sequence and date portions are generated per run; the random identifier prevents accidental name reuse. No file content is changed.
 
-PowerShell uses `-Directory`, `-FirstWord`, `-SecondWord`, and `-Apply`. Bash accepts the directory and two words as arguments and uses `APPLY_CHANGES=true` for mutation.
-
 ### Safety and Recovery
 
 Run the preview first and review every destination. Create a backup or commit before applying. A failed or interrupted rename may require manual recovery from the printed mapping; scripts must never overwrite an existing file.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Directory | `-Directory` | `$1` | required |
+| First word (prefix) | `-FirstWord` | `$2` | required |
+| Second word (prefix) | `-SecondWord` | `$3` | required |
+| Apply the renames | `-Apply` | `APPLY_CHANGES=true` | off (dry run) |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

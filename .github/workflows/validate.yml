@@ -1,0 +1,97 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Bash syntax
+        run: for script in */*.sh; do bash -n "$script"; done
+      - name: shellcheck
+        run: shellcheck --severity=warning */*.sh
+      - name: PowerShell syntax
+        shell: pwsh
+        run: |
+          $failed = 0
+          Get-ChildItem -Path */*.ps1 | ForEach-Object {
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$errors) | Out-Null
+            foreach ($e in $errors) { Write-Output "$($_.Directory.Name)/$($_.Name):$($e.Extent.StartLineNumber): $($e.Message)"; $failed++ }
+          }
+          if ($failed) { exit 1 }
+
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Every category: exactly its script pair, README.md, README.pt-BR.md and the prompt, no
+      # subfolders; both READMEs with the same sections, commands and configuration table.
+      - name: Category layout and README.md / README.pt-BR.md parity
+        shell: python
+        run: |
+          import re, sys
+          from pathlib import Path
+
+          def outline(text):
+              levels, fence = [], False
+              for line in text.splitlines():
+                  if line.startswith("```"):
+                      fence = not fence
+                  elif not fence and re.match(r"#{1,3} ", line):
+                      levels.append(len(line) - len(line.lstrip("#")))
+              return levels
+
+          def commands(text):
+              return sorted(re.findall(r"\./[a-z-]+\.(?:ps1|sh)[^`\n]*", text))
+
+          def configuration(text):
+              rows = [line for line in text.splitlines() if line.startswith("| ") and "`" in line]
+              return [re.findall(r"`[^`]+`", "|".join(row.split("|")[2:4])) for row in rows]
+
+          errors = []
+          categories = sorted(p for p in Path(".").iterdir() if p.is_dir() and not p.name.startswith("."))
+          for category in categories:
+              names = sorted(p.name for p in category.iterdir())
+              if any((category / n).is_dir() for n in names):
+                  errors.append(f"{category}: contains a subfolder")
+              scripts = [n for n in names if n.endswith((".ps1", ".sh"))]
+              if len(scripts) != 2 or {Path(n).stem for n in scripts} != {Path(scripts[0]).stem}:
+                  errors.append(f"{category}: expected one .ps1/.sh pair with the same name, found {scripts}")
+              for required in ("README.md", "README.pt-BR.md", "generate-pair.prompt.md"):
+                  if required not in names:
+                      errors.append(f"{category}: {required} is missing")
+              if len(names) != 5:
+                  errors.append(f"{category}: expected 5 files, found {names}")
+              en, pt = category / "README.md", category / "README.pt-BR.md"
+              if not (en.exists() and pt.exists()):
+                  continue
+              en_text, pt_text = en.read_text(encoding="utf-8"), pt.read_text(encoding="utf-8")
+              if "(README.pt-BR.md)" not in en_text or "(README.md)" not in pt_text:
+                  errors.append(f"{category}: missing the language switch link")
+              if outline(en_text) != outline(pt_text):
+                  errors.append(f"{category}: README.md and README.pt-BR.md have different sections")
+              if commands(en_text) != commands(pt_text):
+                  errors.append(f"{category}: README.md and README.pt-BR.md show different commands")
+              if configuration(en_text) != configuration(pt_text):
+                  errors.append(f"{category}: README.md and README.pt-BR.md have different configuration tables")
+          for root in ("README.md", "README.pt-BR.md"):
+              text = Path(root).read_text(encoding="utf-8")
+              missing = [c.name for c in categories if f"]({c.name}/" not in text]
+              if missing:
+                  errors.append(f"{root}: categories missing from the category map: {missing}")
+          print(f"{len(categories)} categories checked")
+          for error in errors:
+              print(f"ERROR {error}")
+          sys.exit(1 if errors else 0)

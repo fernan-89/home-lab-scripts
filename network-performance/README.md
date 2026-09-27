@@ -1,5 +1,7 @@
 # Network Performance
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category measures network behavior without changing network configuration. It provides latency, jitter, packet-loss context, and optional trusted HTTPS transfer measurements for a defined test window.
@@ -20,6 +22,17 @@ PowerShell writes `network-performance.json` with structured per-host and per-do
 ### Safety and Recovery
 
 Use hosts and URLs approved for testing; repeated ICMP or download tests can affect service quotas. Reports may reveal topology and external endpoints. The scripts do not tune interfaces, alter routes, or retain downloaded payloads.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Probe hosts (comma-separated) | `-ProbeHost` or `NETWORK_PROBE_HOSTS` | `NETWORK_PROBE_HOSTS` or `$1` | `example.com` |
+| Pings per host | `-Count` | `PING_COUNT` | `4` |
+| Download test URLs (comma-separated, HTTPS) | `-DownloadUrl` or `NETWORK_TEST_URLS` | `NETWORK_TEST_URLS` | none (no download test) |
+| Report file | `-OutputFile` | `NETWORK_OUTPUT_FILE` | `network-performance.json` (PowerShell), `network-performance.txt` (Bash) |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

@@ -1,5 +1,7 @@
 # Git Repository Bootstrap
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility initializes a local Git repository and prepares its first commit while preserving existing repository state. It is a bootstrapper, not a publishing pipeline: remote configuration is explicit and history is never force-rewritten.
@@ -15,11 +17,21 @@ This utility initializes a local Git repository and prepares its first commit wh
 
 ### Generated Results
 
-The scripts may create `.git`, `README.md`, Git configuration for `origin`, and an initial commit. They do not generate a report file, publish branches, force-push, or delete existing content. PowerShell accepts `-RepositoryPath`, `-RemoteUrl`, and `-DefaultBranch`; Bash accepts equivalent arguments or `REPOSITORY_PATH`, `GIT_REMOTE_URL`, and `DEFAULT_BRANCH`.
+The scripts may create `.git`, `README.md`, Git configuration for `origin`, and an initial commit. They do not generate a report file, publish branches, force-push, or delete existing content.
 
 ### Safety and Recovery
 
 Inspect the target path and remote URL before execution. Use a disposable or version-controlled directory for first tests. Existing remotes and README files are protected; review `git status`, `git remote -v`, and the commit before any later publishing operation.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Repository path | `-RepositoryPath` | `REPOSITORY_PATH` or `$1` | `./repository` |
+| Remote URL (`origin`) | `-RemoteUrl` or `GIT_REMOTE_URL` | `GIT_REMOTE_URL` or `$2` | required |
+| Default branch | `-DefaultBranch` | `DEFAULT_BRANCH` | `main` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

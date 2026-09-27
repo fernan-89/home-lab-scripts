@@ -1,5 +1,7 @@
 # Shared Chat Export
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category supports a controlled manual export of an approved Gemini shared-chat page. It opens a caller-provided link and creates a local Markdown placeholder; it does not scrape authenticated pages or automate credential handling.
@@ -10,7 +12,6 @@ This category supports a controlled manual export of an approved Gemini shared-c
 - Open the URL with the native browser opener when available.
 - Create or overwrite a local Markdown file with a title, source URL, manual-export status, and paste instruction.
 - Never collect cookies, passwords, tokens, authenticated page data, or unrelated browser content.
-- Use `-ShareUrl` and `-OutputFile` in PowerShell or a URL argument and `CHAT_OUTPUT_FILE` in Bash.
 
 ### Generated Results
 
@@ -19,6 +20,15 @@ The generated `shared-chat.md` is a placeholder for content the operator manuall
 ### Safety and Recovery
 
 Confirm the URL belongs to an approved share before opening it. Redact credentials, personal data, private infrastructure, and confidential conversation content before saving or sharing the Markdown file. The output may overwrite an existing export, so back it up when required.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Shared-chat URL | `-ShareUrl` | `$1` | required |
+| Output file | `-OutputFile` or `CHAT_OUTPUT_FILE` | `CHAT_OUTPUT_FILE` | `shared-chat.md` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

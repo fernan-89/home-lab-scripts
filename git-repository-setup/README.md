@@ -1,5 +1,7 @@
 # Existing Repository Setup
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category configures an existing repository for a GitHub workflow and can publish branches through the GitHub CLI. It is a high-impact repository administration tool, not a passive local formatter. Root documentation files are intentionally not generated until the final documentation command is authorized.
@@ -17,11 +19,22 @@ This category configures an existing repository for a GitHub workflow and can pu
 
 The scripts may create or replace `.gitignore`, `promote-developer-to-stage.yml`, and `validate-pull-request.yml`, plus a commit such as `chore: configure repository workflows`. With publishing enabled they also create a GitHub repository and push `developer`, `stage`, and `master`.
 
-PowerShell requires `-RepositoryPath` and supports repository name, Gitignore language, and visibility. Bash uses the equivalent repository path and environment configuration. Visibility must be `public`, `private`, or `internal`; defaults are a directory-derived name and `private`.
+Visibility must be `public`, `private`, or `internal`.
 
 ### Safety and Recovery
 
 Review generated workflows, target owner/name, visibility, branches, and remote before approving publication. Back up or commit local work first. If a remote operation fails, inspect `git status`, `git branch -a`, and `gh repo view`; do not retry blindly or force-push.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Repository path | `-RepositoryPath` | `$1` | required in PowerShell; current directory in Bash |
+| `.gitignore` template language | `-GitIgnoreLanguage` | `GITIGNORE_LANGUAGE` | `PowerShell` |
+| GitHub repository name | `-RepositoryName` | `REPOSITORY_NAME` | folder name |
+| Visibility | `-Visibility` | `REPOSITORY_VISIBILITY` | `private` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

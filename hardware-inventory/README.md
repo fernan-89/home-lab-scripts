@@ -1,5 +1,7 @@
 # Hardware Inventory
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This category collects local hardware and operating-system facts into portable JSON suitable for inventory review and later enrichment. It does not register assets in a remote CMDB or transmit collected data.
@@ -19,6 +21,14 @@ The placeholder file contains explicit replacement strings for fields that requi
 ### Safety and Recovery
 
 Protect the output directory and redact sensitive fields before sharing. Running again overwrites the two named JSON files, so archive prior results when historical comparison matters. Bash may require elevated access for `dmidecode`; missing privileges should be reported rather than bypassed unsafely.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Output directory | `-OutputDirectory` | `INVENTORY_OUTPUT_DIRECTORY` or `$1` | `inventory` |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 

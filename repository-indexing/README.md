@@ -1,5 +1,7 @@
 # Repository Indexing
 
+🇺🇸 English · 🇧🇷 [Português](README.pt-BR.md)
+
 ## Architectural Role
 
 This utility creates a local metadata inventory of a repository. It is intentionally content-blind: it records file paths, types, sizes, and timestamps without reading file bodies or invoking external AI services.
@@ -17,11 +19,19 @@ This utility creates a local metadata inventory of a repository. It is intention
 
 The generated Markdown table has columns `File`, `Type`, `Size`, and `Last Modified`. It contains one row per selected file and no file contents. Existing `README_INDEX.md` or the configured output is replaced, preventing self-indexing.
 
-PowerShell uses `-RootPath`, `-Recurse`, and `-OutputFile`. Bash accepts root and output arguments and uses `RECURSIVE=true` or `false`.
-
 ### Safety and Recovery
 
 Paths, names, sizes, and timestamps can expose repository structure. Review and protect the index before sharing. The utility does not alter source files, delete files, upload data, or call an AI service.
+
+## Configuration
+
+| Setting | PowerShell | Bash | Default |
+| --- | --- | --- | --- |
+| Root directory | `-RootPath` | `$1` | current directory |
+| Output file (inside the root) | `-OutputFile` | `$2` | `README_INDEX.md` |
+| Recurse into subdirectories | `-Recurse` | `RECURSIVE=true` / `false` | off (PowerShell), on (Bash) |
+
+PowerShell parameters win; where a parameter's default reads an environment variable, that variable applies when the parameter is omitted. `$1`, `$2` and `$3` are Bash positional arguments; when both the environment variable and the argument are set, the variable wins.
 
 ## Usage
 
