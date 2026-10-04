@@ -35,10 +35,10 @@ Do not hardcode personal names, private hostnames, IP addresses, credentials, to
 1. Enable fail-fast error handling.
 2. Verify that `sudo` is available before making changes.
 3. Generate a generic banner containing the configured title and a clear authorized-use warning.
-4. Generate an executable POSIX shell status script that reports hostname, first local address when available, uptime, load, memory usage, and root disk usage without failing when an optional command is unavailable.
+4. Generate an executable Bash login console themed after the MU/TH/UR 6000 computer from the film Alien (USCSS Nostromo, phosphor-green with amber headings, ASCII only, all text in English). It reports hostname, first local address, OS, kernel, uptime, load, memory, swap, mounted disks, and logged-in users when available, shows a priority alert when systemd units have failed, honors `NO_COLOR`, supports an optional `MOTHER_TYPE=1` typewriter effect, runs only in interactive terminals, and never fails the login when an optional command is unavailable.
 5. Write temporary files locally, then copy them to the configured destinations with elevated privileges.
 6. Back up the SSH configuration to `<SshConfigPath>.bak` or `<SSH_CONFIG_PATH>.bak` before editing it.
-7. Remove existing active or commented `Banner` directives and append exactly one `Banner <configured path>` directive.
+7. Remove existing unindented active or commented `Banner` directives and write exactly one `Banner <configured path>` directive before the first `Match` block (or at the end). Build the new configuration in a temporary file and validate it with `sshd -t -f` before replacing the real file; abort without changes if it is invalid.
 8. Install the MOTD/status script and set its executable bit.
 9. Reload `ssh` when active, otherwise reload `sshd` when active. Do not restart services or hide reload failures.
 10. Print a concise success message only after all required operations succeed.
@@ -48,7 +48,7 @@ Do not hardcode personal names, private hostnames, IP addresses, credentials, to
 - Quote every caller-controlled path and value.
 - Avoid destructive deletion beyond replacing the explicitly configured generated files.
 - Preserve the backup and never expose file contents or secrets in logs.
-- Use `/bin/bash`-compatible syntax for the generated status script.
+- Use `/bin/bash`-compatible syntax for the generated status script, and write generated files as ASCII with LF endings and no BOM.
 - PowerShell must work under Windows PowerShell or PowerShell 7 when targeting a Linux host through `sudo`.
 - Do not assume `systemctl` is available without handling the command failure clearly.
 
