@@ -11,7 +11,7 @@ Esta categoria configura um banner SSH genérico antes do login e um script de s
 - Aceitar o caminho do banner, o caminho da configuração do daemon SSH, o caminho do MOTD/status e o título do banner.
 - Usar por padrão `/etc/ssh/ssh_banner`, `/etc/ssh/sshd_config`, `/etc/profile.d/ssh-status.sh` e `AUTHORIZED SYSTEM`.
 - Exigir `sudo`, gravar o banner e o script de status, fazer backup da configuração SSH em `.bak` e manter uma única diretiva `Banner` ativa.
-- Tornar o script de status executável e exibir um console temático (Alien / Nostromo, MU/TH/UR 6000) com host, primeiro endereço local, SO, kernel, tempo ligado, carga, memória, swap, discos montados e usuários logados, quando disponíveis, além de um alerta prioritário quando houver unidades systemd com falha.
+- Tornar o script de status executável e exibir um console de login animado e temático (Alien / Nostromo, MU/TH/UR 6000): sequência de boot, identificação da tripulação (posto e autorização conforme os privilégios do usuário) e host, SO, kernel, dia da missão, atualizações pendentes, carga, temperatura, memória, swap, discos montados, containers em execução, links de rede, portas em escuta, logins SSH falhos nas últimas 24 horas, acessos recentes do usuário e usuários logados, quando disponíveis, além de um alerta prioritário quando houver unidades systemd com falha.
 - Colocar a diretiva `Banner` antes do primeiro bloco `Match`, validar a nova configuração com `sshd -t` antes de substituir o arquivo real e abortar sem alterações se ela for inválida.
 - Recarregar `ssh` ou `sshd`, o que estiver ativo, após gravar com sucesso; nunca reiniciar serviços silenciosamente.
 
@@ -42,7 +42,7 @@ PowerShell: `./configure-ssh-banner.ps1`
 
 Bash: `SSH_BANNER_TITLE='AUTHORIZED SYSTEM' ./configure-ssh-banner.sh`
 
-Altere os caminhos com `BANNER_PATH`, `SSH_CONFIG_PATH` e `MOTD_PATH` no Bash, ou com os parâmetros correspondentes no PowerShell. O console de login sai em texto puro com `NO_COLOR` definido, e `MOTHER_TYPE=1` no shell do usuário ativa o efeito de máquina de escrever.
+Altere os caminhos com `BANNER_PATH`, `SSH_CONFIG_PATH` e `MOTD_PATH` no Bash, ou com os parâmetros correspondentes no PowerShell. O console de login sai em texto puro com `NO_COLOR` definido, e `MOTHER_FAST=1` no shell do usuário pula a animação de boot.
 
 ## Telemetria e Observabilidade
 
