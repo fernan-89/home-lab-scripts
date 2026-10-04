@@ -11,7 +11,8 @@ This category configures a generic SSH pre-login banner and a post-login system-
 - Accept banner path, SSH daemon configuration path, MOTD/status path, and banner title.
 - Default to `/etc/ssh/ssh_banner`, `/etc/ssh/sshd_config`, `/etc/profile.d/ssh-status.sh`, and `AUTHORIZED SYSTEM`.
 - Require `sudo`, write the banner and status script, back up the SSH configuration to `.bak`, and maintain one active `Banner` directive.
-- Make the status script executable and report hostname, first local address, uptime, load, memory, and root disk when available.
+- Make the status script executable and show a themed (Alien / Nostromo, MU/TH/UR 6000) console with host, first local address, OS, kernel, uptime, load, memory, swap, mounted disks, and logged-in users when available, plus a priority alert when systemd units have failed.
+- Place the `Banner` directive before the first `Match` block, validate the new configuration with `sshd -t` before replacing the real file, and abort without changes if it is invalid.
 - Reload `ssh` when active or `sshd` when active after successful writes; do not silently restart services.
 
 ### Generated Results
@@ -20,7 +21,7 @@ The scripts create or replace the banner file and executable status script, and 
 
 ### Safety and Recovery
 
-Review paths and title before running with elevated privileges. Validate SSH configuration syntax and keep the backup before reloading. If access behavior changes unexpectedly, restore the backup and reload the daemon from an existing console. Do not put hostnames, addresses, credentials, or personal names in the banner.
+Review paths and title before running with elevated privileges. The scripts validate the new SSH configuration with `sshd -t` before replacing it and keep the backup before reloading. If access behavior changes unexpectedly, restore the backup and reload the daemon from an existing console. Do not put hostnames, addresses, credentials, or personal names in the banner.
 
 ## Configuration
 
@@ -41,7 +42,7 @@ PowerShell: `./configure-ssh-banner.ps1`
 
 Bash: `SSH_BANNER_TITLE='AUTHORIZED SYSTEM' ./configure-ssh-banner.sh`
 
-Override paths with `BANNER_PATH`, `SSH_CONFIG_PATH`, and `MOTD_PATH` in Bash, or the corresponding PowerShell parameters.
+Override paths with `BANNER_PATH`, `SSH_CONFIG_PATH`, and `MOTD_PATH` in Bash, or the corresponding PowerShell parameters. The login console is plain text when `NO_COLOR` is set, and `MOTHER_TYPE=1` in the user's shell enables a typewriter effect.
 
 ## Telemetry & Observability
 
