@@ -156,12 +156,12 @@ unset -f rule type line gauge
 EOF
 # Build the new sshd_config in a temp file: drop active/commented Banner lines and place exactly one
 # Banner directive before the first Match block (or at the end). Validate before touching the real file.
-sudo awk -v banner="Banner $BANNER_PATH" '
+sudo cat "$SSH_CONFIG_PATH" | awk -v banner="Banner $BANNER_PATH" '
 /^#?Banner[[:space:]]/ { next }
 !done && /^[[:space:]]*Match[[:space:]]/ { print banner; done = 1 }
 { print }
 END { if (!done) print banner }
-' "$SSH_CONFIG_PATH" > "$TEMP_CONFIG"
+' > "$TEMP_CONFIG"
 sudo sshd -t -f "$TEMP_CONFIG" || { echo "Generated SSH configuration is invalid; nothing was changed." >&2; exit 1; }
 sudo cp "$TEMP_BANNER" "$BANNER_PATH"
 sudo cp "$SSH_CONFIG_PATH" "$SSH_CONFIG_PATH.bak"
