@@ -10,7 +10,7 @@ This category configures a generic SSH pre-login banner and a post-login system-
 
 - Accept banner path, SSH daemon configuration path, MOTD/status path, and banner title.
 - Default to `/etc/ssh/ssh_banner`, `/etc/ssh/sshd_config`, `/etc/profile.d/ssh-status.sh`, and `AUTHORIZED SYSTEM`.
-- Require `sudo`, write the banner and status script, back up the SSH configuration to `.bak`, and maintain one active `Banner` directive.
+- Require `sudo`, write the banner (mode 0644) and status script (mode 0755, readable by every user so `/etc/profile` loads it at login), back up the SSH configuration to `.bak`, and maintain one active `Banner` directive.
 - Make the status script executable and show an animated, themed (Alien / Nostromo, MU/TH/UR 6000) login console: a boot sequence, crew identification (rank and clearance from the user's privileges), and host, OS, kernel, mission day, pending updates, load, temperature, memory, swap, mounted disks, running containers, network links, listening ports, failed SSH logins in the last 24 hours, the user's recent logins and logged-in users when available, plus a priority alert when systemd units have failed.
 - Place the `Banner` directive before the first `Match` block, validate the new configuration with `sshd -t` before replacing the real file, and abort without changes if it is invalid.
 - Reload `ssh` when active or `sshd` when active after successful writes; do not silently restart services.

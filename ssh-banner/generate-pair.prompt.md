@@ -39,7 +39,7 @@ Do not hardcode personal names, private hostnames, IP addresses, credentials, to
 5. Write temporary files locally, then copy them to the configured destinations with elevated privileges.
 6. Back up the SSH configuration to `<SshConfigPath>.bak` or `<SSH_CONFIG_PATH>.bak` before editing it.
 7. Remove existing unindented active or commented `Banner` directives and write exactly one `Banner <configured path>` directive before the first `Match` block (or at the end). Build the new configuration in a temporary file and validate it with `sshd -t -f` before replacing the real file; abort without changes if it is invalid.
-8. Install the MOTD/status script and set its executable bit.
+8. Install the banner with mode 0644 and the MOTD/status script with mode 0755 (use `install -m`, never `cp` of a `mktemp` file: its 0600 mode makes `/etc/profile` skip the script for non-root users).
 9. Reload `ssh` when active, otherwise reload `sshd` when active. Do not restart services or hide reload failures.
 10. Print a concise success message only after all required operations succeed.
 

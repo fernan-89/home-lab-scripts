@@ -214,10 +214,11 @@ sudo cat "$SSH_CONFIG_PATH" | awk -v banner="Banner $BANNER_PATH" '
 END { if (!done) print banner }
 ' > "$TEMP_CONFIG"
 sudo sshd -t -f "$TEMP_CONFIG" || { echo "Generated SSH configuration is invalid; nothing was changed." >&2; exit 1; }
-sudo cp "$TEMP_BANNER" "$BANNER_PATH"
+# mktemp files are mode 0600: install with explicit modes so non-root users can read the status script,
+# otherwise /etc/profile silently skips it.
+sudo install -m 644 "$TEMP_BANNER" "$BANNER_PATH"
 sudo cp "$SSH_CONFIG_PATH" "$SSH_CONFIG_PATH.bak"
 sudo cp "$TEMP_CONFIG" "$SSH_CONFIG_PATH"
-sudo cp "$TEMP_MOTD" "$MOTD_PATH"
-sudo chmod +x "$MOTD_PATH"
+sudo install -m 755 "$TEMP_MOTD" "$MOTD_PATH"
 if systemctl is-active --quiet ssh; then sudo systemctl reload ssh; elif systemctl is-active --quiet sshd; then sudo systemctl reload sshd; fi
 echo "SSH banner configured."

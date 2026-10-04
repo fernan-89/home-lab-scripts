@@ -221,11 +221,11 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "Could not read $SshConfigPath." }
     & sudo sshd -t -f $tempConfig
     if ($LASTEXITCODE -ne 0) { throw "Generated SSH configuration is invalid; nothing was changed." }
-    & sudo cp $tempBanner $BannerPath
+    # Explicit modes: a restrictive temp-file mode would make /etc/profile skip the status script for non-root users.
+    & sudo install -m 644 $tempBanner $BannerPath
     & sudo cp $SshConfigPath "$SshConfigPath.bak"
     & sudo cp $tempConfig $SshConfigPath
-    & sudo cp $tempMotd $MotdPath
-    & sudo chmod +x $MotdPath
+    & sudo install -m 755 $tempMotd $MotdPath
     if (systemctl is-active --quiet ssh) { & sudo systemctl reload ssh } elseif (systemctl is-active --quiet sshd) { & sudo systemctl reload sshd }
 } finally {
     Remove-Item $tempBanner, $tempMotd, $tempConfig -Force -ErrorAction SilentlyContinue

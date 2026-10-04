@@ -10,7 +10,7 @@ Esta categoria configura um banner SSH genérico antes do login e um script de s
 
 - Aceitar o caminho do banner, o caminho da configuração do daemon SSH, o caminho do MOTD/status e o título do banner.
 - Usar por padrão `/etc/ssh/ssh_banner`, `/etc/ssh/sshd_config`, `/etc/profile.d/ssh-status.sh` e `AUTHORIZED SYSTEM`.
-- Exigir `sudo`, gravar o banner e o script de status, fazer backup da configuração SSH em `.bak` e manter uma única diretiva `Banner` ativa.
+- Exigir `sudo`, gravar o banner (modo 0644) e o script de status (modo 0755, legível por todos os usuários para que o `/etc/profile` o carregue no login), fazer backup da configuração SSH em `.bak` e manter uma única diretiva `Banner` ativa.
 - Tornar o script de status executável e exibir um console de login animado e temático (Alien / Nostromo, MU/TH/UR 6000): sequência de boot, identificação da tripulação (posto e autorização conforme os privilégios do usuário) e host, SO, kernel, dia da missão, atualizações pendentes, carga, temperatura, memória, swap, discos montados, containers em execução, links de rede, portas em escuta, logins SSH falhos nas últimas 24 horas, acessos recentes do usuário e usuários logados, quando disponíveis, além de um alerta prioritário quando houver unidades systemd com falha.
 - Colocar a diretiva `Banner` antes do primeiro bloco `Match`, validar a nova configuração com `sshd -t` antes de substituir o arquivo real e abortar sem alterações se ela for inválida.
 - Recarregar `ssh` ou `sshd`, o que estiver ativo, após gravar com sucesso; nunca reiniciar serviços silenciosamente.
